@@ -39,6 +39,8 @@ public class PageDataSource {
     public Page createPage(String food, long feeling_id) {
         ContentValues values = new ContentValues();
         values.put(contract.DAT_Pages.COLUMN_FOOD, food);
+        Date currentDate = new Date(System.currentTimeMillis());
+        values.put(contract.DAT_Pages.COLUMN_DATE, currentDate.toString());
         values.put(contract.DAT_Pages.COLUMN_FEELING_ID, feeling_id);
         long insertId = database.insert(contract.DAT_Pages.TABLE_NAME, null,
                 values);
@@ -78,10 +80,10 @@ public class PageDataSource {
     private Page cursorToPage(Cursor cursor) {
         Page page = new Page();
         page.setId(cursor.getLong(0));
-        page.setFood(cursor.getString(1));
-        page.setFeeling_id(cursor.getLong(2));
-        Date currentDate = new Date(System.currentTimeMillis());
-        page.setDate(currentDate);
+        Date pageDate = new Date(cursor.getLong(1)*1000);
+        page.setDate(pageDate);
+        page.setFood(cursor.getString(2));
+        page.setFeeling_id(cursor.getLong(3));
         return page;
     }
 }

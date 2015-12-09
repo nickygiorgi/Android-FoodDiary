@@ -16,7 +16,7 @@ public class FoodDiary extends AppCompatActivity {
         PageDataSource datasource = new PageDataSource(this);
         datasource.open();
 
-        //datasource.createPage("leeks", 0);
+        datasource.createPage("leeks", 0);
 
     }
 
