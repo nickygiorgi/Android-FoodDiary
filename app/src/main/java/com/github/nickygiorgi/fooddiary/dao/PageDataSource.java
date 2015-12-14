@@ -9,7 +9,6 @@ import android.content.ContentValues;
 import com.github.nickygiorgi.fooddiary.db.contract;
 import com.github.nickygiorgi.fooddiary.db.sqlHelper;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,9 +18,10 @@ public class PageDataSource {
     // Database fields
     private SQLiteDatabase database;
     private sqlHelper dbHelper;
-    private String[] allColumns = {contract.DAT_Pages.COLUMN_ID,
+    private String[] allColumns = {
+            contract.DAT_Pages._ID,
             contract.DAT_Pages.COLUMN_DATE,
-            contract.DAT_Pages.COLUMN_FOOD,
+            contract.DAT_Pages.COLUMN_FOOD_ID,
             contract.DAT_Pages.COLUMN_FEELING_ID };
 
     public PageDataSource(Context context) {
@@ -36,16 +36,16 @@ public class PageDataSource {
         dbHelper.close();
     }
 
-    public Page createPage(String food, long feeling_id) {
+    public Page createPage(long food_id, long feeling_id) {
         ContentValues values = new ContentValues();
-        values.put(contract.DAT_Pages.COLUMN_FOOD, food);
+        values.put(contract.DAT_Pages.COLUMN_FOOD_ID, food_id);
         Date currentDate = new Date(System.currentTimeMillis());
-        values.put(contract.DAT_Pages.COLUMN_DATE, currentDate.toString());
+        values.put(contract.DAT_Pages.COLUMN_DATE, sqlHelper.persistDate(currentDate));
         values.put(contract.DAT_Pages.COLUMN_FEELING_ID, feeling_id);
         long insertId = database.insert(contract.DAT_Pages.TABLE_NAME, null,
                 values);
         Cursor cursor = database.query(contract.DAT_Pages.TABLE_NAME,
-                allColumns, contract.DAT_Pages.COLUMN_ID + " = " + insertId, null,
+                allColumns, contract.DAT_Pages._ID + " = " + insertId, null,
                 null, null, null);
         cursor.moveToFirst();
         Page newPage = cursorToPage(cursor);
@@ -56,7 +56,7 @@ public class PageDataSource {
     public void deletePage(Page page) {
         long id = page.getId();
         System.out.println("Page deleted with id: " + id);
-        database.delete(contract.DAT_Pages.TABLE_NAME, contract.DAT_Pages.COLUMN_ID
+        database.delete(contract.DAT_Pages.TABLE_NAME, contract.DAT_Pages._ID
                 + " = " + id, null);
     }
 
@@ -80,9 +80,8 @@ public class PageDataSource {
     private Page cursorToPage(Cursor cursor) {
         Page page = new Page();
         page.setId(cursor.getLong(0));
-        Date pageDate = new Date(cursor.getLong(1)*1000);
-        page.setDate(pageDate);
-        page.setFood(cursor.getString(2));
+        page.setDate(sqlHelper.loadDate(cursor, 1));
+        page.setFood(cursor.getLong(2));
         page.setFeeling_id(cursor.getLong(3));
         return page;
     }

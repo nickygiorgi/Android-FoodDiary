@@ -5,7 +5,7 @@ import java.util.Date;
 public class Page {
     private long id;
     private Date date;
-    private String food;
+    private long foodId; //todo: reference to object food?
     private long feelingId; //todo: reference to object feeling?
 
     public long getId() {
@@ -24,12 +24,12 @@ public class Page {
         this.date = date;
     }
 
-    public String getFood() {
-        return food;
+    public long getFood() {
+        return foodId;
     }
 
-    public void setFood(String food) {
-        this.food = food;
+    public void setFood(long foodId) {
+        this.foodId = foodId;
     }
 
     public long getFeeling_id() {
@@ -42,6 +42,6 @@ public class Page {
 
     @Override
     public String toString() {
-        return date.toString() + " - today I had " + food + " and it felt " + feelingId; //feeling object?
+        return date.toString() + " - today I had " + foodId + " and it felt " + feelingId; //feeling object?
     }
 }
