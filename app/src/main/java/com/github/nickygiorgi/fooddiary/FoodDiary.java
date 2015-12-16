@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.github.nickygiorgi.fooddiary.dao.PageDataSource;
+import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
 
 public class FoodDiary extends AppCompatActivity {
 
@@ -13,10 +13,10 @@ public class FoodDiary extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_diary);
 
-        PageDataSource datasource = new PageDataSource(this);
-        datasource.open();
-
-        datasource.createPage("leeks", 0);
+        FoodDiaryDataSource ds = new FoodDiaryDataSource(this);
+        ds.open();
+        ds.createPage(1, 1);
+        ds.close();
 
     }
 

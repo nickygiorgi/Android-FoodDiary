@@ -1,4 +1,4 @@
-package com.github.nickygiorgi.fooddiary.dao;
+package com.github.nickygiorgi.fooddiary.dal;
 
 import java.util.Date;
 

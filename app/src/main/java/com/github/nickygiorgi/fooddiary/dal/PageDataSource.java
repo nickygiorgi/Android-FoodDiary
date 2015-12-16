@@ -1,9 +1,7 @@
-package com.github.nickygiorgi.fooddiary.dao;
+package com.github.nickygiorgi.fooddiary.dal;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.SQLException;
 import android.content.ContentValues;
 
 import com.github.nickygiorgi.fooddiary.db.contract;
@@ -13,35 +11,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class PageDataSource {
+class PageDataSource {
 
-    // Database fields
-    private SQLiteDatabase database;
-    private sqlHelper dbHelper;
-    private String[] allColumns = {
+    private static String[] allColumns = {
             contract.DAT_Pages._ID,
             contract.DAT_Pages.COLUMN_DATE,
             contract.DAT_Pages.COLUMN_FOOD_ID,
             contract.DAT_Pages.COLUMN_FEELING_ID };
 
-    public PageDataSource(Context context) {
-        dbHelper = new sqlHelper(context);
-    }
-
-    public void open() throws SQLException {
-        database = dbHelper.getWritableDatabase();
-    }
-
-    public void close() {
-        dbHelper.close();
-    }
-
-    public Page createPage(long food_id, long feeling_id) {
+    static Page createPage(SQLiteDatabase database, long foodId, long feelingId) {
         ContentValues values = new ContentValues();
-        values.put(contract.DAT_Pages.COLUMN_FOOD_ID, food_id);
+        values.put(contract.DAT_Pages.COLUMN_FOOD_ID, foodId);
         Date currentDate = new Date(System.currentTimeMillis());
         values.put(contract.DAT_Pages.COLUMN_DATE, sqlHelper.persistDate(currentDate));
-        values.put(contract.DAT_Pages.COLUMN_FEELING_ID, feeling_id);
+        values.put(contract.DAT_Pages.COLUMN_FEELING_ID, feelingId);
         long insertId = database.insert(contract.DAT_Pages.TABLE_NAME, null,
                 values);
         Cursor cursor = database.query(contract.DAT_Pages.TABLE_NAME,
@@ -53,14 +36,14 @@ public class PageDataSource {
         return newPage;
     }
 
-    public void deletePage(Page page) {
+    static void deletePage(SQLiteDatabase database, Page page) {
         long id = page.getId();
         System.out.println("Page deleted with id: " + id);
         database.delete(contract.DAT_Pages.TABLE_NAME, contract.DAT_Pages._ID
                 + " = " + id, null);
     }
 
-    public List<Page> getAllPages() {
+    static List<Page> getAllPages(SQLiteDatabase database) {
         List<Page> pages = new ArrayList<Page>();
 
         Cursor cursor = database.query(contract.DAT_Pages.TABLE_NAME,
@@ -77,7 +60,7 @@ public class PageDataSource {
         return pages;
     }
 
-    private Page cursorToPage(Cursor cursor) {
+    private static Page cursorToPage(Cursor cursor) {
         Page page = new Page();
         page.setId(cursor.getLong(0));
         page.setDate(sqlHelper.loadDate(cursor, 1));
