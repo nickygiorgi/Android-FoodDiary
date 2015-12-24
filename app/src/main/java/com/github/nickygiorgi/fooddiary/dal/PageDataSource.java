@@ -63,7 +63,7 @@ class PageDataSource {
     private static Page cursorToPage(Cursor cursor) {
         Page page = new Page();
         page.setId(cursor.getLong(0));
-        page.setDate(sqlHelper.loadDate(cursor, 1));
+        page.setDate(sqlHelper.loadDate(cursor.getLong(1)));
         page.setFood(cursor.getLong(2));
         page.setFeeling_id(cursor.getLong(3));
         return page;

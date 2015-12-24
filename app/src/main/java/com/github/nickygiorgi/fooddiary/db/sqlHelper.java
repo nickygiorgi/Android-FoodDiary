@@ -45,11 +45,11 @@ public class sqlHelper extends SQLiteOpenHelper {
         return null;
     }
 
-    public static Date loadDate(Cursor cursor, int index) {
-        if (cursor.isNull(index)) {
+    public static Date loadDate(long dateRecord) {
+        if (dateRecord <= 0) {
             return null;
         }
-        return new Date(cursor.getLong(index));
+        return new Date(dateRecord);
     }
 
 }
