@@ -1,4 +1,4 @@
-package com.github.nickygiorgi.fooddiary.dal;
+package com.github.nickygiorgi.fooddiary.dal.ActiveRecords;
 
 public class Feeling {
     private long id;

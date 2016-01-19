@@ -3,6 +3,7 @@ package com.github.nickygiorgi.fooddiary.dal;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Feeling;
 import com.github.nickygiorgi.fooddiary.db.contract;
 
 import java.util.ArrayList;

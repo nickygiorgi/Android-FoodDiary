@@ -2,7 +2,6 @@ package com.github.nickygiorgi.fooddiary.db;
 
 import java.util.Date;
 
-import android.database.Cursor;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.Context;

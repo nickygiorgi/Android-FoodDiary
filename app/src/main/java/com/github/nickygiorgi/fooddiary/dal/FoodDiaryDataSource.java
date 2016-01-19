@@ -3,6 +3,8 @@ package com.github.nickygiorgi.fooddiary.dal;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.SQLException;
+
+import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Feeling;
 import com.github.nickygiorgi.fooddiary.db.sqlHelper;
 
 import java.util.List;
