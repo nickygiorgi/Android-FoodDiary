@@ -1,8 +1,10 @@
 package com.github.nickygiorgi.fooddiary;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
 
@@ -12,9 +14,6 @@ public class FoodDiary extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_diary);
-
-        FoodDiaryDataSource ds = new FoodDiaryDataSource(this);
-
     }
 
     @Override
@@ -37,5 +36,10 @@ public class FoodDiary extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void chooseFeeling(View view) {
+        Intent feelingChoice = new Intent(this, FeelingChoiceActivity.class);
+        startActivity(feelingChoice);
     }
 }
