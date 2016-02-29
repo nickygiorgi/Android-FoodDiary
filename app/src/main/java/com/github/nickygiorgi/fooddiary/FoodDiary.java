@@ -14,9 +14,6 @@ public class FoodDiary extends AppCompatActivity {
         setContentView(R.layout.activity_food_diary);
 
         FoodDiaryDataSource ds = new FoodDiaryDataSource(this);
-        ds.open();
-        ds.createPage(1, 1);
-        ds.close();
 
     }
 
