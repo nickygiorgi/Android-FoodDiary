@@ -24,6 +24,7 @@
             android:textColor="@android:color/holo_green_dark"
             android:id="@+id/goodBtn"
             android:text="Good"
+            android:onClick="setToGood"
             />
 
         <Button
@@ -34,6 +35,7 @@
             android:textColor="@android:color/holo_blue_dark"
             android:id="@+id/okBtn"
             android:text="OK"
+            android:onClick="setToOK"
             />
 
         <Button
@@ -44,6 +46,7 @@
             android:textColor="@android:color/holo_red_dark"
             android:id="@+id/badBtn"
             android:text="Bad"
+            android:onClick="setToBad"
             />
 
     </LinearLayout>
