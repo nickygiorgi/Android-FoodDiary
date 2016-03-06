@@ -8,11 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 import com.github.nickygiorgi.fooddiary.db.contract;
 
 public class FeelingChoiceActivity extends AppCompatActivity {
 
-    private int todayFeeling = contract.X_Feelings.RECORD_BAD_ID;
+    private Feeling todayFeeling = Feelings.BAD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,24 +25,24 @@ public class FeelingChoiceActivity extends AppCompatActivity {
     }
 
     public void setToGood(View view) {
-        todayFeeling = contract.X_Feelings.RECORD_GOOD_ID;
+        todayFeeling = Feelings.GOOD;
         finish();
     }
 
     public void setToOK(View view) {
-        todayFeeling = contract.X_Feelings.RECORD_OK_ID;
+        todayFeeling = Feelings.OK;
         finish();
     }
 
     public void setToBad(View view) {
-        todayFeeling = contract.X_Feelings.RECORD_BAD_ID;
+        todayFeeling = Feelings.BAD;
         finish();
     }
 
     @Override
     public void finish() {
         Intent data = new Intent();
-        data.putExtra("feeling", todayFeeling);
+        data.putExtra("feeling", todayFeeling.Id);
         setResult(RESULT_OK, data);
         super.finish();
     }

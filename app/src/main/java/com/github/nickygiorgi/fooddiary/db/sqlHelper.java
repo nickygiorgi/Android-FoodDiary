@@ -17,8 +17,6 @@ public class sqlHelper extends SQLiteOpenHelper {
     }
     public void onCreate(SQLiteDatabase db) {
         DAT_Pages.createTable(db);
-        X_Feelings.createTable(db);
-        X_Feelings.fillTable(db);
         X_Poo_Consistency.createTable(db);
         X_Poo_Consistency.fillTable(db);
         DAT_Poos.createTable(db);

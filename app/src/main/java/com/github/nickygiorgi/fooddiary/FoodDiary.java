@@ -8,15 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 import com.github.nickygiorgi.fooddiary.db.contract;
-
-import java.util.Map;
 
 public class FoodDiary extends AppCompatActivity {
 
     public final int FEELING_CHOICE = 1;
 
-    private int todayFeeling = contract.X_Feelings.RECORD_BAD_ID;
+    private Feeling todayFeeling = Feelings.BAD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +58,10 @@ public class FoodDiary extends AppCompatActivity {
     {
         if (resultCode == RESULT_OK && requestCode == FEELING_CHOICE) {
             if (data.hasExtra("feeling")) {
-                todayFeeling = data.getIntExtra("feeling", contract.X_Feelings.RECORD_BAD_ID);
+                int choosenFeelingId = data.getExtras().getInt("feeling");
+                todayFeeling = Feelings.MapById(choosenFeelingId);
                 Button feelingChoiceBtn = (Button) findViewById(R.id.feelingsChoiceBtn);
-                feelingChoiceBtn.setText("and it felt " + todayFeeling);
+                feelingChoiceBtn.setText("and it felt " + todayFeeling.Desc);
             }
         }
     }

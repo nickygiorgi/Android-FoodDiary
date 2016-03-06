@@ -14,19 +14,6 @@ public final class contract {
         public static final String COLUMN_FEELING_ID = "feeling_id";
     }
 
-    public static abstract class X_Feelings implements BaseColumns {
-        public static final String TABLE_NAME = "X_Feelings";
-        public static final String COLUMN_DESC = "desc";
-
-        // x table - records
-        public static final int RECORD_BAD_ID = 0;
-        public static final String RECORD_BAD_DESC = "bad";
-        public static final int RECORD_OK_ID = 1;
-        public static final String RECORD_OK_DESC = "ok";
-        public static final int RECORD_GOOD_ID = 2;
-        public static final String RECORD_GOOD_DESC = "good";
-    }
-
     public static abstract class X_Poo_Consistency implements BaseColumns {
         public static final String TABLE_NAME = "X_Poo_Consistency";
         public static final String COLUMN_DESC = "desc";

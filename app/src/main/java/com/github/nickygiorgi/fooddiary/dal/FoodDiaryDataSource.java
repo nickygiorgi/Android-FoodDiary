@@ -4,7 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.SQLException;
 
-import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Feeling;
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
 import com.github.nickygiorgi.fooddiary.db.sqlHelper;
 
 import java.util.List;
@@ -29,14 +29,6 @@ public class FoodDiaryDataSource {
 
     public void createPage(long foodId, long feelingId) {
         PageDataSource.createPage(database, foodId, feelingId);
-    }
-
-    public List<Feeling> getAllFeelings() {
-        return FeelingDataSource.getAllFeelings(database);
-    }
-
-    public Feeling getAFeeling(long feelingId) {
-        return FeelingDataSource.getAFeeling(database, feelingId);
     }
 
 }
