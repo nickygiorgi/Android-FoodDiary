@@ -63,8 +63,8 @@
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="and it felt bad."
-            android:textColor="@android:color/holo_red_dark"
+            android:text="@string/home_feeling_presenter_bad"
+            android:textColor="@color/red"
             android:id="@+id/feelingsChoiceBtn"
             android:clickable="true"
             android:onClick="chooseFeeling" />

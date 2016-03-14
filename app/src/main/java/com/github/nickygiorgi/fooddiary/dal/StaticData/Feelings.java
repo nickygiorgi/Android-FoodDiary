@@ -1,12 +1,12 @@
 package com.github.nickygiorgi.fooddiary.dal.StaticData;
 
+import com.github.nickygiorgi.fooddiary.R;
+
 public class Feelings {
 
-    public static final Feeling BAD = new Feeling(0, "bad", "red");
-    public static final Feeling OK = new Feeling(1, "ok", "amber");
-    public static final Feeling GOOD = new Feeling(2, "good", "green");
-
-    public static final Feeling UNKNOWN = new Feeling(-1, "N.A.", "");
+    public static final Feeling BAD = new Feeling(0, R.string.home_feeling_presenter_bad, R.color.red);
+    public static final Feeling OK = new Feeling(1, R.string.home_feeling_presenter_ok, R.color.amber);
+    public static final Feeling GOOD = new Feeling(2, R.string.home_feeling_presenter_good, R.color.green);
 
     public static Feeling MapById(int id) {
         switch (id) {
@@ -17,7 +17,7 @@ public class Feelings {
             case 2:
                 return GOOD;
             default:
-                return UNKNOWN;
+                throw new TypeNotPresentException("Feeling not recognised", null);
         }
     }
 }

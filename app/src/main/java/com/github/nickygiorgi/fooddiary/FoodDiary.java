@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
-import com.github.nickygiorgi.fooddiary.db.contract;
 
 public class FoodDiary extends AppCompatActivity {
 
@@ -59,10 +58,19 @@ public class FoodDiary extends AppCompatActivity {
         if (resultCode == RESULT_OK && requestCode == FEELING_CHOICE) {
             if (data.hasExtra("feeling")) {
                 int choosenFeelingId = data.getExtras().getInt("feeling");
-                todayFeeling = Feelings.MapById(choosenFeelingId);
-                Button feelingChoiceBtn = (Button) findViewById(R.id.feelingsChoiceBtn);
-                feelingChoiceBtn.setText("and it felt " + todayFeeling.Desc);
+                adjustToFeeling(choosenFeelingId);
             }
         }
+    }
+
+    public void adjustToFeeling(int feelingId) {
+        todayFeeling = Feelings.MapById(feelingId);
+        Button feelingChoiceBtn = (Button) findViewById(R.id.feelingsChoiceBtn);
+        feelingChoiceBtn.setText(todayFeeling.descriptionAsStaticResource);
+        feelingChoiceBtn.setTextColor(getColorFromResourceId(todayFeeling.colorAsStaticResource));
+    }
+
+    public int getColorFromResourceId(int resourceId) {
+        return getResources().getColor(todayFeeling.colorAsStaticResource);
     }
 }
