@@ -119,14 +119,6 @@
             android:id="@+id/saveBtn"
             android:text="save page"/>
 
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/viewBtn"
-            android:text="view all pages"/>
-
     </LinearLayout>
 
     </ScrollView>

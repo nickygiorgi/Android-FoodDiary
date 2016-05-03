@@ -21,6 +21,10 @@
         <activity
             android:name=".FeelingChoiceActivity"
             android:label="@string/title_activity_feeling_choice"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListHistoryActivity"
+            android:label="@string/title_activity_list_history"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
