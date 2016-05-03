@@ -11,6 +11,10 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".FoodDiary">
 
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
     <LinearLayout android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -124,5 +128,7 @@
             android:text="view all pages"/>
 
     </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>
