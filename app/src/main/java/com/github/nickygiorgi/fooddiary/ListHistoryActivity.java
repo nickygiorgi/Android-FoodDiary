@@ -11,6 +11,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
+import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,17 +26,25 @@ public class ListHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_history);
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[] { "yesterday - bad", "today - ok" };
 
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
+        final ArrayList<String> list = GetFormattedList();
         final StableArrayAdapter adapter = new StableArrayAdapter(
                 this,
                 android.R.layout.simple_list_item_1,
                 list);
         listview.setAdapter(adapter);
+    }
+
+    private ArrayList<String> GetFormattedList() {
+        ArrayList<String> records = new ArrayList<>();
+        FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
+        ds.open();
+        List<Page> pages = ds.getAllPages();
+        ds.close();
+        for (Page page : pages) {
+            records.add(page.getDate().toString() + " - " + page.getFood() + " - " + page.getFeeling_id());
+        }
+        return records;
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
