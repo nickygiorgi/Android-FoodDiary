@@ -1,5 +1,6 @@
 package com.github.nickygiorgi.fooddiary;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -68,6 +69,6 @@ public class FoodDiary extends AppCompatActivity {
     }
 
     public int getColorFromResourceId(int resourceId) {
-        return getResources().getColor(todayFeeling.colorAsStaticResource);
+        return ContextCompat.getColor(this.getApplicationContext(), todayFeeling.colorAsStaticResource);
     }
 }

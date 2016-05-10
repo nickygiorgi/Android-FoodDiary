@@ -1,12 +1,13 @@
 package com.github.nickygiorgi.fooddiary.dal.ActiveRecords;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Page {
     private long id;
     private Date date;
     private long foodId; //todo: reference to object food?
-    private long feelingId; //todo: reference to object feeling?
+    private int feelingId;
 
     public long getId() {
         return id;
@@ -20,28 +21,33 @@ public class Page {
         return date;
     }
 
+    public String getFormattedDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        return formatter.format(date);
+    }
+
     public void setDate(Date date) {
         this.date = date;
     }
 
-    public long getFood() {
+    public long getFoodId() {
         return foodId;
     }
 
-    public void setFood(long foodId) {
+    public void setFoodId(long foodId) {
         this.foodId = foodId;
     }
 
-    public long getFeeling_id() {
+    public int getFeelingId() {
         return feelingId;
     }
 
-    public void setFeeling_id(long feelingId) {
+    public void setFeelingId(int feelingId) {
         this.feelingId = feelingId;
     }
 
     @Override
     public String toString() {
-        return date.toString() + " - today I had " + foodId + " and it felt " + feelingId; //feeling object?
+        return getFormattedDate() + " | " + foodId;
     }
 }

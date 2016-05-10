@@ -13,6 +13,7 @@ import android.widget.ListView;
 
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
 import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
+import com.github.nickygiorgi.fooddiary.ui.adapters.PageListAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,50 +27,20 @@ public class ListHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_history);
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-
-        final ArrayList<String> list = GetFormattedList();
-        final StableArrayAdapter adapter = new StableArrayAdapter(
-                this,
-                android.R.layout.simple_list_item_1,
-                list);
+        final Page[] history = GetHistory();
+        final PageListAdapter adapter = new PageListAdapter(
+                this.getApplicationContext(),
+                history);
         listview.setAdapter(adapter);
     }
 
-    private ArrayList<String> GetFormattedList() {
+    private Page[] GetHistory() {
         ArrayList<String> records = new ArrayList<>();
         FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
         ds.open();
         List<Page> pages = ds.getAllPages();
         ds.close();
-        for (Page page : pages) {
-            records.add(page.getDate().toString() + " - " + page.getFood() + " - " + page.getFeeling_id());
-        }
-        return records;
-    }
-
-    private class StableArrayAdapter extends ArrayAdapter<String> {
-
-        HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-        public StableArrayAdapter(Context context, int textViewResourceId,
-                                  List<String> objects) {
-            super(context, textViewResourceId, objects);
-            for (int i = 0; i < objects.size(); ++i) {
-                mIdMap.put(objects.get(i), i);
-            }
-        }
-
-        @Override
-        public long getItemId(int position) {
-            String item = getItem(position);
-            return mIdMap.get(item);
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return true;
-        }
-
+        return pages.toArray(new Page[pages.size()]);
     }
 
 

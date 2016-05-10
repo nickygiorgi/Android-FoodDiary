@@ -65,8 +65,8 @@ class PageDataSource {
         Page page = new Page();
         page.setId(cursor.getLong(0));
         page.setDate(sqlHelper.loadDate(cursor.getLong(1)));
-        page.setFood(cursor.getLong(2));
-        page.setFeeling_id(cursor.getLong(3));
+        page.setFoodId(cursor.getLong(2));
+        page.setFeelingId(cursor.getInt(3));
         return page;
     }
 }
