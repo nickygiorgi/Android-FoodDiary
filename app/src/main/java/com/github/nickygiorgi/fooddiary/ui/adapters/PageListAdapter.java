@@ -31,7 +31,7 @@ public class PageListAdapter extends ArrayAdapter<Page> {
         View rowView = inflater.inflate(R.layout.item_list_history, parent, false);
         TextView textView = (TextView) rowView.findViewById(R.id.listHistoryRecordText);
         Page currentRecord = this.pages[position];
-        Feeling currentRecordFeeling = Feelings.MapById(currentRecord.getFeelingId());
+        Feeling currentRecordFeeling = currentRecord.getFeeling();
         textView.setText(currentRecord.toString());
         textView.setTextColor(ContextCompat.getColor(this.context, currentRecordFeeling.colorAsStaticResource));
         return rowView;

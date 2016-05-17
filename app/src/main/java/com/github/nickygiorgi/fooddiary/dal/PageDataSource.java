@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 import com.github.nickygiorgi.fooddiary.db.contract;
 import com.github.nickygiorgi.fooddiary.db.sqlHelper;
 
@@ -66,7 +67,8 @@ class PageDataSource {
         page.setId(cursor.getLong(0));
         page.setDate(sqlHelper.loadDate(cursor.getLong(1)));
         page.setFoodId(cursor.getLong(2));
-        page.setFeelingId(cursor.getInt(3));
+        int feelingId = cursor.getInt(3);
+        page.setFeeling(Feelings.MapById(feelingId));
         return page;
     }
 }

@@ -1,5 +1,7 @@
 package com.github.nickygiorgi.fooddiary.dal.ActiveRecords;
 
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,7 +9,7 @@ public class Page {
     private long id;
     private Date date;
     private long foodId; //todo: reference to object food?
-    private int feelingId;
+    private Feeling feeling;
 
     public long getId() {
         return id;
@@ -38,12 +40,12 @@ public class Page {
         this.foodId = foodId;
     }
 
-    public int getFeelingId() {
-        return feelingId;
+    public Feeling getFeeling() {
+        return feeling;
     }
 
-    public void setFeelingId(int feelingId) {
-        this.feelingId = feelingId;
+    public void setFeeling(Feeling feeling) {
+        this.feeling = feeling;
     }
 
     @Override
