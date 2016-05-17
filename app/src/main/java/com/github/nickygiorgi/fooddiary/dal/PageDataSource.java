@@ -72,7 +72,8 @@ class PageDataSource {
                 + contract.DAT_Pages.TABLE_NAME + " page "
                 + " INNER JOIN "
                 + contract.X_Foods.TABLE_NAME + " food "
-                + " on pageId = foodId";
+                + " on page." + contract.DAT_Pages.COLUMN_FOOD_ID + " = foodId"
+                + " ORDER BY page." + contract.DAT_Pages.COLUMN_DATE + " DESC";
     }
 
     private static Page selectAllCursorToPage(Cursor cursor) {
