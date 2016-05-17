@@ -25,6 +25,8 @@ public class ListHistoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_history);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         final ListView listview = (ListView) findViewById(R.id.listview);
         final Page[] history = GetHistory();
