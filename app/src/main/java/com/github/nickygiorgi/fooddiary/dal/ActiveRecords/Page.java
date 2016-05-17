@@ -50,6 +50,9 @@ public class Page {
 
     @Override
     public String toString() {
+        if (this.food == null || this.date == null) {
+            return "";
+        }
         return getFormattedDate() + " | " + this.food.getDescription();
     }
 }

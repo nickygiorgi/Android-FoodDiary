@@ -6,6 +6,7 @@ import android.content.ContentValues;
 
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Food;
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
+import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 import com.github.nickygiorgi.fooddiary.db.contract;
 import com.github.nickygiorgi.fooddiary.db.sqlHelper;
@@ -22,7 +23,7 @@ class PageDataSource {
             contract.DAT_Pages.COLUMN_FOOD_ID,
             contract.DAT_Pages.COLUMN_FEELING_ID };
 
-    static Page createPage(SQLiteDatabase database, long foodId, long feelingId) {
+    static Page insertPage(SQLiteDatabase database, long foodId, int feelingId) {
         ContentValues values = new ContentValues();
         values.put(contract.DAT_Pages.COLUMN_FOOD_ID, foodId);
         Date currentDate = new Date(System.currentTimeMillis());
@@ -30,12 +31,10 @@ class PageDataSource {
         values.put(contract.DAT_Pages.COLUMN_FEELING_ID, feelingId);
         long insertId = database.insert(contract.DAT_Pages.TABLE_NAME, null,
                 values);
-        Cursor cursor = database.query(contract.DAT_Pages.TABLE_NAME,
-                allColumns, contract.DAT_Pages._ID + " = " + insertId, null,
-                null, null, null);
-        cursor.moveToFirst();
-        Page newPage = cursorToPage(cursor);
-        cursor.close();
+        Page newPage = new Page();
+        newPage.setId(insertId);
+        newPage.setDate(currentDate);
+        newPage.setFeeling(Feelings.MapById(feelingId));
         return newPage;
     }
 
@@ -54,7 +53,7 @@ class PageDataSource {
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            Page page = cursorToPage(cursor);
+            Page page = selectAllCursorToPage(cursor);
             pages.add(page);
             cursor.moveToNext();
         }
@@ -76,7 +75,7 @@ class PageDataSource {
                 + " on pageId = foodId";
     }
 
-    private static Page cursorToPage(Cursor cursor) {
+    private static Page selectAllCursorToPage(Cursor cursor) {
         Page page = new Page();
         page.setId(cursor.getLong(0));
         page.setDate(sqlHelper.loadDate(cursor.getLong(1)));

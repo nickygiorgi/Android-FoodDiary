@@ -51,7 +51,8 @@
             <EditText android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:hint="some food"/>
+                android:hint="some food"
+                android:id="@+id/foodEditText"/>
 
         </LinearLayout>
 
@@ -117,7 +118,8 @@
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:id="@+id/saveBtn"
-            android:text="save page"/>
+            android:text="save page"
+            android:onClick="savePage" />
 
     </LinearLayout>
 

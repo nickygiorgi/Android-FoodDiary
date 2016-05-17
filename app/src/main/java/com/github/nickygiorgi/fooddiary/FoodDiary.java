@@ -8,7 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Food;
+import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
+import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 
@@ -48,6 +52,15 @@ public class FoodDiary extends AppCompatActivity {
     public void chooseFeeling(View view) {
         Intent feelingChoice = new Intent(this, FeelingChoiceActivity.class);
         startActivityForResult(feelingChoice, FEELING_CHOICE);
+    }
+
+    public void savePage(View view) {
+        FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
+        ds.open();
+        final EditText foodEditText = (EditText) findViewById(R.id.foodEditText);
+        Food todayFood = ds.insertXFood(foodEditText.getText().toString());
+        Page page = ds.insertPage(todayFood.getId(), todayFeeling.Id);
+        ds.close();
     }
 
     @Override
