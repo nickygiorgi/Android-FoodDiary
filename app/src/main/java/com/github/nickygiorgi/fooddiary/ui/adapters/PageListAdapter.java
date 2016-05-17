@@ -6,13 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.nickygiorgi.fooddiary.R;
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feeling;
-import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 
 public class PageListAdapter extends ArrayAdapter<Page> {
     private final Context context;

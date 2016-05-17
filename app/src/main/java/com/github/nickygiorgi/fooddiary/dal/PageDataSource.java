@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.content.ContentValues;
 
+import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Food;
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
 import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 import com.github.nickygiorgi.fooddiary.db.contract;
@@ -48,8 +49,8 @@ class PageDataSource {
     static List<Page> getAllPages(SQLiteDatabase database) {
         List<Page> pages = new ArrayList<Page>();
 
-        Cursor cursor = database.query(contract.DAT_Pages.TABLE_NAME,
-                allColumns, null, null, null, null, null);
+        final String selectAllPagesSql = getSelectAllPagesSql();
+        Cursor cursor = database.rawQuery(selectAllPagesSql, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -62,13 +63,31 @@ class PageDataSource {
         return pages;
     }
 
+    private static String getSelectAllPagesSql() {
+        return "select " +
+                "page." + contract.DAT_Pages._ID + " as pageId, "
+                + contract.DAT_Pages.COLUMN_DATE + ", "
+                + contract.DAT_Pages.COLUMN_FEELING_ID + ", "
+                + "food." + contract.X_Foods._ID + " as foodId, "
+                + contract.X_Foods.COLUMN_DESC + " from "
+                + contract.DAT_Pages.TABLE_NAME + " page "
+                + " INNER JOIN "
+                + contract.X_Foods.TABLE_NAME + " food "
+                + " on pageId = foodId";
+    }
+
     private static Page cursorToPage(Cursor cursor) {
         Page page = new Page();
         page.setId(cursor.getLong(0));
         page.setDate(sqlHelper.loadDate(cursor.getLong(1)));
-        page.setFoodId(cursor.getLong(2));
-        int feelingId = cursor.getInt(3);
+        int feelingId = cursor.getInt(2);
         page.setFeeling(Feelings.MapById(feelingId));
+        int foodId = cursor.getInt(3);
+        String foodDescription = cursor.getString(4);
+        Food food = new Food();
+        food.setId(foodId);
+        food.setDescription(foodDescription);
+        page.setFood(food);
         return page;
     }
 }

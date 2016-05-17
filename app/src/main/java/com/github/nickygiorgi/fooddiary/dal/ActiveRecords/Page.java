@@ -8,7 +8,7 @@ import java.util.Date;
 public class Page {
     private long id;
     private Date date;
-    private long foodId; //todo: reference to object food?
+    private Food food;
     private Feeling feeling;
 
     public long getId() {
@@ -32,12 +32,12 @@ public class Page {
         this.date = date;
     }
 
-    public long getFoodId() {
-        return foodId;
+    public Food getFood() {
+        return this.food;
     }
 
-    public void setFoodId(long foodId) {
-        this.foodId = foodId;
+    public void setFood(Food food) {
+        this.food = food;
     }
 
     public Feeling getFeeling() {
@@ -50,6 +50,6 @@ public class Page {
 
     @Override
     public String toString() {
-        return getFormattedDate() + " | " + foodId;
+        return getFormattedDate() + " | " + this.food.getDescription();
     }
 }
