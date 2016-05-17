@@ -37,7 +37,6 @@ public class ListHistoryActivity extends AppCompatActivity {
     }
 
     private Page[] GetHistory() {
-        ArrayList<String> records = new ArrayList<>();
         FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
         ds.open();
         List<Page> pages = ds.getAllPages();
