@@ -41,8 +41,7 @@ public class FoodDiary extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_listHistory) {
-            Intent listHistory = new Intent(this, ListHistoryActivity.class);
-            startActivity(listHistory);
+            NavigateToHistory();
             return true;
         }
 
@@ -61,6 +60,12 @@ public class FoodDiary extends AppCompatActivity {
         Food todayFood = ds.insertXFood(foodEditText.getText().toString());
         Page page = ds.insertPage(todayFood.getId(), todayFeeling.Id);
         ds.close();
+        NavigateToHistory();
+    }
+
+    public void NavigateToHistory() {
+        Intent listHistory = new Intent(this, ListHistoryActivity.class);
+        startActivity(listHistory);
     }
 
     @Override

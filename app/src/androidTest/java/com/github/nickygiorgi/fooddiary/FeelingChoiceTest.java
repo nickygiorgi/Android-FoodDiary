@@ -19,33 +19,28 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 @LargeTest
 public class FeelingChoiceTest {
 
+    TestUtilities testUtilities = new TestUtilities();
+
     @Rule
     public ActivityTestRule<FoodDiary> foodDiaryActivityTestRule =
             new ActivityTestRule<>(FoodDiary.class);
 
     @Test
     public void chooseGoodFeeling_feelingChoiceActivity() {
-        chooseFeeling(R.id.goodBtn);
+        testUtilities.chooseFeeling(R.id.goodBtn);
         assertCorrectFeelingIsDisplayed(R.string.home_feeling_presenter_good);
     }
 
     @Test
     public void chooseOkFeeling_feelingChoiceActivity() {
-        chooseFeeling(R.id.okBtn);
+        testUtilities.chooseFeeling(R.id.okBtn);
         assertCorrectFeelingIsDisplayed(R.string.home_feeling_presenter_ok);
     }
 
     @Test
     public void chooseBadFeeling_feelingChoiceActivity() {
-        chooseFeeling(R.id.badBtn);
+        testUtilities.chooseFeeling(R.id.badBtn);
         assertCorrectFeelingIsDisplayed(R.string.home_feeling_presenter_bad);
-    }
-
-    public void chooseFeeling(int feelingResourceId) {
-        onView(withId(R.id.feelingsChoiceBtn))
-                .perform(click());
-        onView(withId(feelingResourceId))
-                .perform(click());
     }
 
     public void assertCorrectFeelingIsDisplayed(int homeFeelingStringResourceId) {

@@ -1,22 +1,14 @@
 package com.github.nickygiorgi.fooddiary;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
 import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
 import com.github.nickygiorgi.fooddiary.ui.adapters.PageListAdapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ListHistoryActivity extends AppCompatActivity {
@@ -28,7 +20,7 @@ public class ListHistoryActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ListView listview = (ListView) findViewById(R.id.listview);
+        final ListView listview = (ListView) findViewById(R.id.history_listview);
         final Page[] history = GetHistory();
         final PageListAdapter adapter = new PageListAdapter(
                 this.getApplicationContext(),

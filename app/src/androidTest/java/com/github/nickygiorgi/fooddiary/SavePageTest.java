@@ -1,5 +1,6 @@
 package com.github.nickygiorgi.fooddiary;
 
+
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -9,30 +10,38 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
-
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ListHistoryTest {
+public class SavePageTest {
+
+    TestUtilities testUtilities = new TestUtilities();
+    final String food = "food1";
+
     @Rule
     public IntentsTestRule<FoodDiary> foodDiaryActivityTestRule =
             new IntentsTestRule<>(FoodDiary.class);
 
     @Test
-    public void viewListHistory_feelingChoiceActivity() {
-        openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+    public void SavePageTakesYouToHistory() {
 
-        onView(withText("History"))
+        onView(withId(R.id.foodEditText))
+                .perform(typeText(food));
+        testUtilities.chooseFeeling(R.id.goodBtn);
+
+        onView(withId(R.id.saveBtn))
                 .perform(click());
 
-        intended(hasComponent(ListHistoryActivity.class.getName()));
+        AssertHistory();
     }
 
+    public void AssertHistory() {
+        intended(hasComponent(ListHistoryActivity.class.getName()));
+    }
 }
