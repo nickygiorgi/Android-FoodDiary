@@ -19,6 +19,7 @@ import com.github.nickygiorgi.fooddiary.dal.StaticData.Feelings;
 public class FoodDiary extends AppCompatActivity {
 
     public final int FEELING_CHOICE = 1;
+    public final int LOO_EPISODES = 1;
 
     private Feeling todayFeeling = Feelings.BAD;
 
@@ -41,7 +42,7 @@ public class FoodDiary extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_listHistory) {
-            NavigateToHistory();
+            navigateToHistory();
             return true;
         }
 
@@ -53,6 +54,11 @@ public class FoodDiary extends AppCompatActivity {
         startActivityForResult(feelingChoice, FEELING_CHOICE);
     }
 
+    public void navigateToLoo(View view) {
+        Intent loo = new Intent(this, LooActivity.class);
+        startActivityForResult(loo, LOO_EPISODES);
+    }
+
     public void savePage(View view) {
         FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
         ds.open();
@@ -60,10 +66,10 @@ public class FoodDiary extends AppCompatActivity {
         Food todayFood = ds.insertXFood(foodEditText.getText().toString());
         Page page = ds.insertPage(todayFood.getId(), todayFeeling.Id);
         ds.close();
-        NavigateToHistory();
+        navigateToHistory();
     }
 
-    public void NavigateToHistory() {
+    public void navigateToHistory() {
         Intent listHistory = new Intent(this, ListHistoryActivity.class);
         startActivity(listHistory);
     }

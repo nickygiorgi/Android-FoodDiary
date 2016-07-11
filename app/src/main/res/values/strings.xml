@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Food Diary</string>
     <string name="title_activity_feeling_choice">How did you feel today?</string>
+    <string name="title_activity_loo">What about the loo today?</string>
 
     <string name="home_feeling_presenter_bad">and it felt bad</string>
     <string name="choice_presenter_bad">Bad</string>

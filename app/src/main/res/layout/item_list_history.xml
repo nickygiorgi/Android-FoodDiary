@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:layout_height="60dp"
+        android:layout_height="@dimen/std_element_height"
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:textAppearance="?android:attr/textAppearanceListItem"
