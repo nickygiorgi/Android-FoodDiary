@@ -7,4 +7,16 @@
         android:orderInCategory="100"
         android:title="Delete all records"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_archiveAll"
+        android:orderInCategory="100"
+        android:title="Archive all records"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_archiveOldest30"
+        android:orderInCategory="100"
+        android:title="Archive oldest 30 records"
+        app:showAsAction="never" />
 </menu>

@@ -40,9 +40,17 @@ class PageDataSource {
 
     static void deletePage(SQLiteDatabase database, Page page) {
         long id = page.getId();
-        System.out.println("Page deleted with id: " + id);
         database.delete(contract.DAT_Pages.TABLE_NAME, contract.DAT_Pages._ID
                 + " = " + id, null);
+    }
+
+    static boolean deleteAllPages(SQLiteDatabase database) {
+        database.delete(contract.DAT_Pages.TABLE_NAME, "", null);
+        if (getAllPages(database).size() != 0)
+        {
+            return false;
+        }
+        return true;
     }
 
     static List<Page> getAllPages(SQLiteDatabase database) {

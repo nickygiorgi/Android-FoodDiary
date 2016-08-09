@@ -37,6 +37,8 @@ public class FoodDiaryDataSource {
         return PageDataSource.getAllPages(database);
     }
 
+    public boolean deleteAllPages() { return PageDataSource.deleteAllPages(database); }
+
     public Food insertXFood(String description) {
         return FoodDataSource.insertXFood(database, description);
     }

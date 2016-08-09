@@ -1,5 +1,8 @@
 package com.github.nickygiorgi.fooddiary;
 
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,13 +10,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
+import com.github.nickygiorgi.fooddiary.activity.extensions.DialogListenerActivity;
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
 import com.github.nickygiorgi.fooddiary.dal.FoodDiaryDataSource;
+import com.github.nickygiorgi.fooddiary.dialogs.ConfirmationDialog;
+import com.github.nickygiorgi.fooddiary.dialogs.DialogUtilities;
+import com.github.nickygiorgi.fooddiary.dialogs.ErrorDialog;
+import com.github.nickygiorgi.fooddiary.dialogs.YesNoDialog;
 import com.github.nickygiorgi.fooddiary.ui.adapters.PageListAdapter;
 
 import java.util.List;
 
-public class ListHistoryActivity extends AppCompatActivity {
+public class ListHistoryActivity extends DialogListenerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,22 @@ public class ListHistoryActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_deleteAll) {
+            DialogFragment dialog = new YesNoDialog();
+            DialogUtilities.FireDialog(
+                    dialog,
+                    getFragmentManager(),
+                    "Delete Confirmation",
+                    "Are you sure you want to delete all records?");
+            return true;
+        }
+
+        if (id == R.id.action_archiveAll) {
+            //TODO implement
+            return true;
+        }
+
+        if (id == R.id.action_archiveOldest30) {
+            //TODO implement
             return true;
         }
 
@@ -56,4 +80,36 @@ public class ListHistoryActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onYes() {
+        FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
+        ds.open();
+        boolean success = ds.deleteAllPages();
+        ds.close();
+        if (success) {
+            DialogFragment dialog = new ConfirmationDialog();
+            DialogUtilities.FireDialog(
+                    dialog,
+                    getFragmentManager(),
+                    "Success",
+                    "All records successfully deleted");
+        }
+        else {
+            DialogFragment dialog = new ErrorDialog();
+            DialogUtilities.FireDialog(
+                    dialog,
+                    getFragmentManager(),
+                    null,
+                    "En error occurred while deleting all records");
+        }
+        this.reload();
+    }
+
+    @Override
+    public void onNo() { }
+
+    public void reload() {
+        finish();
+        startActivity(getIntent());
+    }
 }
