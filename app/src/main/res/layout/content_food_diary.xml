@@ -80,7 +80,7 @@
             android:visibility="visible"
             android:background="@android:color/darker_gray"/>
 
-        <Button
+        <!-- <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/std_element_height"
             android:gravity="center_vertical"
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:visibility="visible"
-            android:background="@android:color/darker_gray"/>
+            android:background="@android:color/darker_gray"/> -->
 
         <Button
             android:layout_width="match_parent"
