@@ -3,6 +3,8 @@ package com.github.nickygiorgi.fooddiary;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.github.nickygiorgi.fooddiary.dal.ActiveRecords.Page;
@@ -26,6 +28,23 @@ public class ListHistoryActivity extends AppCompatActivity {
                 this.getApplicationContext(),
                 history);
         listview.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_list_history, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_deleteAll) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private Page[] GetHistory() {
