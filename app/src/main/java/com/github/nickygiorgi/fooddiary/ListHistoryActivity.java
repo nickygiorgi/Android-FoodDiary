@@ -2,6 +2,7 @@ package com.github.nickygiorgi.fooddiary;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,8 @@ import com.github.nickygiorgi.fooddiary.ui.adapters.PageListAdapter;
 import java.util.List;
 
 public class ListHistoryActivity extends DialogListenerActivity {
+
+    private Archiver archiver = new Archiver();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,18 @@ public class ListHistoryActivity extends DialogListenerActivity {
         }
 
         if (id == R.id.action_archiveAll) {
-            //TODO implement
+            if (!archiver.canArchive() || !archiver.tryArchive())
+            {
+                DialogFragment dialog = new ErrorDialog();
+                DialogUtilities.FireDialog(
+                        dialog,
+                        getFragmentManager(),
+                        "Error",
+                        archiver.getError()
+                );
+                return false;
+            }
+
             return true;
         }
 
@@ -104,4 +118,6 @@ public class ListHistoryActivity extends DialogListenerActivity {
         finish();
         startActivity(getIntent());
     }
+
+
 }
