@@ -1,10 +1,7 @@
 package com.github.nickygiorgi.fooddiary;
 
-import android.app.AlertDialog;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,11 +56,6 @@ public class ListHistoryActivity extends DialogListenerActivity {
         }
 
         if (id == R.id.action_archiveAll) {
-            //TODO implement
-            return true;
-        }
-
-        if (id == R.id.action_archiveOldest30) {
             //TODO implement
             return true;
         }
