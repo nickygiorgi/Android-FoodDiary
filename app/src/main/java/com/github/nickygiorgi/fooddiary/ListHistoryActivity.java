@@ -22,6 +22,7 @@ import java.util.List;
 public class ListHistoryActivity extends DialogListenerActivity {
 
     private Archiver archiver = new Archiver();
+    private int currentMenuAction = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,35 +47,38 @@ public class ListHistoryActivity extends DialogListenerActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        currentMenuAction = item.getItemId();
 
-        if (id == R.id.action_deleteAll) {
+        if (currentMenuAction == R.id.action_deleteAll) {
             DialogFragment dialog = new YesNoDialog();
             DialogUtilities.FireDialog(
                     dialog,
                     getFragmentManager(),
                     "Delete Confirmation",
                     "Are you sure you want to delete all records?");
-            return true;
         }
 
-        if (id == R.id.action_archiveAll) {
-            if (!archiver.canArchive() || !archiver.tryArchive())
+        if (currentMenuAction == R.id.action_archiveAll) {
+            boolean archived = false;
+
+            if (archiver.canArchive())
             {
+                if (archiver.tryArchive()) {
+                    archived = true;
+                }
+            }
+
+            if (!archived) {
                 DialogFragment dialog = new ErrorDialog();
                 DialogUtilities.FireDialog(
                         dialog,
                         getFragmentManager(),
                         "Error",
-                        archiver.getError()
-                );
-                return false;
+                        archiver.getError());
             }
-
-            return true;
         }
 
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private Page[] GetHistory() {
@@ -88,27 +92,28 @@ public class ListHistoryActivity extends DialogListenerActivity {
 
     @Override
     public void onYes() {
-        FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
-        ds.open();
-        boolean success = ds.deleteAllPages();
-        ds.close();
-        if (success) {
-            DialogFragment dialog = new ConfirmationDialog();
-            DialogUtilities.FireDialog(
-                    dialog,
-                    getFragmentManager(),
-                    "Success",
-                    "All records successfully deleted");
+        if (currentMenuAction == R.id.action_deleteAll) {
+            FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
+            ds.open();
+            boolean success = ds.deleteAllPages();
+            ds.close();
+            if (success) {
+                DialogFragment dialog = new ConfirmationDialog();
+                DialogUtilities.FireDialog(
+                        dialog,
+                        getFragmentManager(),
+                        "Success",
+                        "All records successfully deleted");
+            } else {
+                DialogFragment dialog = new ErrorDialog();
+                DialogUtilities.FireDialog(
+                        dialog,
+                        getFragmentManager(),
+                        null,
+                        "En error occurred while deleting all records");
+            }
+            this.reload();
         }
-        else {
-            DialogFragment dialog = new ErrorDialog();
-            DialogUtilities.FireDialog(
-                    dialog,
-                    getFragmentManager(),
-                    null,
-                    "En error occurred while deleting all records");
-        }
-        this.reload();
     }
 
     @Override
@@ -118,6 +123,4 @@ public class ListHistoryActivity extends DialogListenerActivity {
         finish();
         startActivity(getIntent());
     }
-
-
 }
