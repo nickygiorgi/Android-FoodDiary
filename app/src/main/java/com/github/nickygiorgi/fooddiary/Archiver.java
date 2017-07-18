@@ -1,12 +1,10 @@
 package com.github.nickygiorgi.fooddiary;
 
-import android.content.Context;
 import android.os.Environment;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -50,27 +48,20 @@ public class Archiver {
     }
 
     private File getArchiveStorageDir() throws Exception {
-        File file = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DOCUMENTS), "FoodDiary_archive");
-
-        if (!file.exists()) {
-            boolean newDirCreated = file.mkdirs();
-            if (!newDirCreated) {
-                throw new Exception("Could not create directory for archive");
-            }
-        }
-
-        return file;
+        return Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
     }
 
     private void tryWriteToFile(File archiveDir) throws IOException {
-        File file = new File(archiveDir.getPath() + File.separator + getCurrentTimeStamp());
-        file.createNewFile();
-        FileWriter writer = new FileWriter(file);
-        //TODO archive real data
-        writer.write("Food diary data archive");
-        writer.flush();
-        writer.close();
+
+        String content = "food diary data archive";
+        File file;
+        FileOutputStream outputStream;
+        file = new File(archiveDir, "FoodDiaryArchive_" + getCurrentTimeStamp() + ".txt");
+
+        outputStream = new FileOutputStream(file);
+        outputStream.write(content.getBytes());
+        outputStream.close();
     }
 
     // TODO move this to utilities
