@@ -16,6 +16,8 @@ public class Archiver {
         return this.error;
     }
 
+    public void setError(String error) { this.error = error; }
+
     public boolean canArchive() {
         if (!isExternalStorageWritable()) {
             this.error = "External storage is not available at this time - data NOT archived";

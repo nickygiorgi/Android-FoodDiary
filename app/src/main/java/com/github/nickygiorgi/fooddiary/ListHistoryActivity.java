@@ -1,7 +1,11 @@
 package com.github.nickygiorgi.fooddiary;
 
+import android.Manifest;
 import android.app.DialogFragment;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +26,7 @@ public class ListHistoryActivity extends DialogListenerActivity {
 
     private Archiver archiver = new Archiver();
     private int currentMenuAction = 0;
+    private static final int PERMISSIONS_TO_ARCHIVE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +36,7 @@ public class ListHistoryActivity extends DialogListenerActivity {
         setSupportActionBar(toolbar);
 
         final ListView listview = (ListView) findViewById(R.id.history_listview);
-        final Page[] history = GetHistory();
+        final Page[] history = this.getHistory();
         final PageListAdapter adapter = new PageListAdapter(
                 this.getApplicationContext(),
                 history);
@@ -58,29 +63,13 @@ public class ListHistoryActivity extends DialogListenerActivity {
         }
 
         if (currentMenuAction == R.id.action_archiveAll) {
-            boolean archived = false;
-
-            if (archiver.canArchive())
-            {
-                if (archiver.tryArchive()) {
-                    archived = true;
-                }
-            }
-
-            if (!archived) {
-                DialogFragment dialog = new ErrorDialog();
-                DialogUtilities.FireDialog(
-                        dialog,
-                        getFragmentManager(),
-                        "Error",
-                        archiver.getError());
-            }
+            this.requestPermissionsToArchive();
         }
 
         return true;
     }
 
-    private Page[] GetHistory() {
+    private Page[] getHistory() {
         FoodDiaryDataSource ds = new FoodDiaryDataSource(this.getApplicationContext());
         ds.open();
         List<Page> pages = ds.getAllPages();
@@ -88,6 +77,59 @@ public class ListHistoryActivity extends DialogListenerActivity {
         return pages.toArray(new Page[pages.size()]);
     }
 
+    private void requestPermissionsToArchive() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    PERMISSIONS_TO_ARCHIVE
+            );
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] permissionRequestResults
+    ) {
+        switch (requestCode) {
+            case PERMISSIONS_TO_ARCHIVE: {
+                boolean archived = false;
+
+                if (this.archivePermissionsGranted(permissionRequestResults)) {
+                    if (archiver.canArchive())
+                    {
+                        if (archiver.tryArchive()) {
+                            archived = true;
+                        }
+                    }
+                } else {
+
+                    archiver.setError("permission to archive has been denied");
+                }
+
+                if (!archived) {
+                    DialogFragment dialog = new ErrorDialog();
+                    DialogUtilities.FireDialog(
+                            dialog,
+                            getFragmentManager(),
+                            "Error",
+                            archiver.getError());
+                }
+
+                return;
+            }
+        }
+    }
+
+    private boolean archivePermissionsGranted(int[] permissionRequestResults) {
+        return permissionRequestResults.length > 0
+                && permissionRequestResults[0] == PackageManager.PERMISSION_GRANTED;
+    }
 
     @Override
     public void onYes() {
