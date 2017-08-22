@@ -88,6 +88,10 @@ public class ListHistoryActivity extends DialogListenerActivity {
                     PERMISSIONS_TO_ARCHIVE
             );
         }
+        else {
+            final boolean writePermissionGranted = true;
+            this.tryArchive(writePermissionGranted);
+        }
     }
 
     @Override
@@ -98,37 +102,47 @@ public class ListHistoryActivity extends DialogListenerActivity {
     ) {
         switch (requestCode) {
             case PERMISSIONS_TO_ARCHIVE: {
-                boolean archived = false;
-
-                if (this.archivePermissionsGranted(permissionRequestResults)) {
-                    if (archiver.canArchive())
-                    {
-                        if (archiver.tryArchive()) {
-                            archived = true;
-                        }
-                    }
-                } else {
-
-                    archiver.setError("permission to archive has been denied");
-                }
-
-                if (!archived) {
-                    DialogFragment dialog = new ErrorDialog();
-                    DialogUtilities.FireDialog(
-                            dialog,
-                            getFragmentManager(),
-                            "Error",
-                            archiver.getError());
-                }
+                final boolean archivePermissionGranted
+                        = this.archivePermissionsGranted(permissionRequestResults);
+                this.tryArchive(archivePermissionGranted);
 
                 return;
             }
         }
     }
 
+    private void tryArchive(boolean archivePermissionGranted) {
+        boolean archived = false;
+
+        if (archivePermissionGranted) {
+            if (archiver.canArchive())
+            {
+                if (archiver.tryArchive()) {
+                    archived = true;
+                }
+            }
+        } else {
+
+            archiver.setError("permission to archive has been denied");
+        }
+
+        if (!archived) {
+            DialogFragment dialog = new ErrorDialog();
+            DialogUtilities.FireDialog(
+                    dialog,
+                    getFragmentManager(),
+                    "Error",
+                    archiver.getError());
+        }
+    }
+
     private boolean archivePermissionsGranted(int[] permissionRequestResults) {
         return permissionRequestResults.length > 0
-                && permissionRequestResults[0] == PackageManager.PERMISSION_GRANTED;
+                && this.archivePermissionsGranted(permissionRequestResults[0]);
+    }
+
+    private boolean archivePermissionsGranted(int writePermission) {
+        return writePermission == PackageManager.PERMISSION_GRANTED;
     }
 
     @Override

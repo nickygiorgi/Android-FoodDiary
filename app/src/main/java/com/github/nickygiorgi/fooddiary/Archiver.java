@@ -32,13 +32,12 @@ public class Archiver {
         try {
             File archiveDir = getArchiveStorageDir();
             tryWriteToFile(archiveDir);
+            return true;
         }
         catch (Exception ex) {
             this.error = ex.getMessage();
             return false;
         }
-
-        return true;
     }
 
     private boolean isExternalStorageWritable() {
@@ -51,7 +50,7 @@ public class Archiver {
 
     private File getArchiveStorageDir() throws Exception {
         return Environment
-                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                .getExternalStorageDirectory();
     }
 
     private void tryWriteToFile(File archiveDir) throws IOException {
@@ -60,6 +59,10 @@ public class Archiver {
         File file;
         FileOutputStream outputStream;
         file = new File(archiveDir, "FoodDiaryArchive_" + getCurrentTimeStamp() + ".txt");
+        file.getParentFile().mkdirs();
+        if (!file.exists()) {
+            file.createNewFile();
+        }
 
         outputStream = new FileOutputStream(file);
         outputStream.write(content.getBytes());
